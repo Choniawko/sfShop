@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Entity\Product;
+
 class BasketController extends Controller
 {
     /**
@@ -15,18 +17,8 @@ class BasketController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $session = $request->getSession();
-
-        $basket = $session->get('basket', array());
-        $products = $this->getProducts();
-
-        $productsInBasket = array();
-        foreach ($basket as $id => $b) {
-         $productsInBasket[] = $products[$id];   
-        }
-
         return array(
-            'products_in_basket' => $productsInBasket,
+            'basket' => $this->get('basket'),
             );
     }
 
@@ -34,16 +26,16 @@ class BasketController extends Controller
      * @Route("/koszyk/{id}/dodaj", name="basket_add")
      * @Template()
      */
-    public function addAction($id, Request $request)
+    public function addAction(Product $product = null)
     {
-        $session = $request->getSession();
-        $basket = $session->get('basket', array());
+       if (is_null($product)) {
+        $this->addFlash('notice', 'Produkt który próbujesz dodać nie został znaleziony');
+        return $this->redirectToRoute('products_list');
+       }
+       $basket = $this->get('basket');
+       $basket->add($product);
 
-        $basket[$id] = 1;
-
-        $session->set('basket', $basket);
-
-        $this->addFlash('notice', 'Produkt został dodany do koszyka');
+        $this->addFlash('notice', sprintf('Produkt "%s" został dodany do koszyka', $product->getName()));
 
         return $this->redirectToRoute('basket');
 
@@ -53,24 +45,18 @@ class BasketController extends Controller
      * @Route("/koszyk/{id}/usun", name="basket_remove")
      * @Template()
      */
-    public function removeAction($id, Request $request)
+    public function removeAction(Product $product)
     {
-        //$session = $this->get('session');
-        $session = $request->getSession();
-        $basket = $session->get('basket', array());
 
-        if(!array_key_exists($id, $basket)) {
-            $this->addFlash('notice', 'Produkt nie istnieje');
+        $basket = $this->get('basket');
 
-            return $this->redirectToRoute('basket');
-        }
+        try {
+            $basket->remove($product);
 
-        unset($basket[$id]);
-        
-        $session->set('basket', $basket);
-        $product = $this->getProduct($id);
-        $this->addFlash('notice', 'Produkt' . $product['name'] . ' został usunięty z koszyka');
-        //$this->addFlash('notice', sprintf('Product %'))
+            $this->addFlash('notice', sprintf('Produkt %s został usunięty z koszyka', $product->getName()));
+        } catch (\Exception $ex) {
+            $this->addFlash('notice', $ex->getMessage());
+        }       
         
         return $this->RedirectToRoute('basket');
     }
@@ -86,14 +72,18 @@ class BasketController extends Controller
     }
 
     /**
-     * @Route("/koszyk/wyczysc")
+     * @Route("/koszyk/wyczysc", name="basket_clear")
      * @Template()
      */
     public function clearAction()
     {
-        return array(
-                // ...
-            );    }
+
+        $this->get('basket')
+        ->clear();
+
+        $this->addFlash('notice', 'Koszyk został pomyślnie wyczyszczony');
+        return $this->RedirectToRoute('basket');    
+    }
 
     /**
      * @Route("/koszyk/kup")
@@ -104,29 +94,5 @@ class BasketController extends Controller
         return array(
                 // ...
             );    }
-
-    private function getProducts()
-    {
-        $file = file('product.txt'); 
-        $products = array(); 
-        foreach ($file as $p) { 
-            $e = explode(':', trim($p)); 
-            $products[$e[0]] = array( 
-                'id' => $e[0], 
-                'name' => $e[1],
-                'price' => $e[2],
-                'desc' => $e[3],
-            ); 
-        }
-        
-        return $products;
-    }
-
-    private function getProduct($id)
-    {
-        $products = $this->getProducts();
-
-        return $products[$id];
-    }
     
 }
