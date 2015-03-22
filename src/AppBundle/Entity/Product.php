@@ -50,7 +50,7 @@ class Product
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="product")
      */
     private $category;
 
