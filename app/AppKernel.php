@@ -17,6 +17,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -25,11 +27,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-            $bundles[] = new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle();
-            $bundles[] = new JordiLlonch\Bundle\CrudGeneratorBundle\JordiLlonchCrudGeneratorBundle();
-            $bundles[] = new FOS\UserBundle\FOSUserBundle();
-            $bundles[] = new Knp\Bundle\MenuBundle\KnpMenuBundle();
-            $bundles[] = new Vich\UploaderBundle\VichUploaderBundle();
+            
         }
 
         return $bundles;
