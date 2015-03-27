@@ -1,0 +1,15 @@
+<div class="thumbnail">
+    <h4>W koszyku</h4>
+        <ul class="list-group">
+        {% for product in basket.products %}
+            <li class="list-group-item">
+                <p>{{ product.name }}</p>
+                <p>{{ product.price }}<span style="padding-left:20px">{{ product.quantity }} szt.</span></p>                                  
+            </li>
+            {% else %}
+                <li class="list-group-item">
+                    <h2>Koszyk jest pusty<h2>
+                </li>
+            {% endfor %} 
+        </ul>
+</div>

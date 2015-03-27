@@ -6,23 +6,23 @@ use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Product;
 class LoadProductsData extends AbstractFixture implements OrderedFixtureInterface
 {
-public function getOrder()
-{
-return 2;
-}
-public function load(ObjectManager $manager)
-{
-    $faker = \Faker\Factory::create('pl_PL');
-
-    for ($j = 0; $j < 200; $j++) {
-        $product = new Product();
-        $product->setName($faker->sentence(2));
-        $product->setDescription($faker->text());
-        $product->setPrice($faker->numberBetween(50, 999));
-        $product->setAmount($faker->numberBetween(1, 30));
-        $product->setCategory($this->getReference('category' . $faker->numberBetween(1, 11)));
-        $manager->persist($product);
+    public function getOrder()
+    {
+        return 2;
     }
-        $manager->flush();
-}
+    public function load(ObjectManager $manager)
+    {
+        $faker = \Faker\Factory::create('pl_PL');
+
+        for ($j = 0; $j < 200; $j++) {
+            $product = new Product();
+            $product->setName($faker->sentence(2));
+            $product->setDescription($faker->text());
+            $product->setPrice($faker->numberBetween(50, 999));
+            $product->setAmount($faker->numberBetween(1, 30));
+            $product->setCategory($this->getReference('category' . $faker->numberBetween(1, 11)));
+            $manager->persist($product);
+        }
+            $manager->flush();
+    }
 }

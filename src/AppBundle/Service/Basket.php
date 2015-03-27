@@ -4,10 +4,10 @@ namespace AppBundle\Service;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Product;
+
 /**
  * Description of Basket
  */
-
 class Basket 
 {
     private $session;

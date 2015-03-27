@@ -1,11 +1,11 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Produkty{% endblock %}
+{% block title %}{{ parent() }} | Produkty{% endblock %}
 
 {% block body %}
     
     <h1>Lista produktów</h1>
-        
+        <a href="{{ path('products_add') }}" class="btn btn-primary" title="dodaj nowy produkt">dodaj nowy produkt</a>
     {% for product in products %}
 
         {% if loop.first or (loop.index % 4) == 0  %}
@@ -22,7 +22,7 @@
                     <div class="pull-left">
                         <p>
                             <a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-primary" role="button">Koszyk</a> 
-                            <a href="#" class="btn btn-default" role="button">Pokaż</a>
+                            <a href="{{ path('products_show', {'id': product.id}) }}" class="btn btn-default" role="button">Pokaż</a>
                         </p>
                     </div>
                     <div class="pull-right">

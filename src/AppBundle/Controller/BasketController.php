@@ -66,8 +66,6 @@ class BasketController extends Controller
      */
     public function updateAction($id, $quantity)
     {
-       //$productsInBasket['products']['quantity'] = $quantity;
-
        return $this->RedirectToRoute('basket'); 
     }
 
@@ -94,5 +92,12 @@ class BasketController extends Controller
         return array(
                 // ...
             );    }
+
+    public function baseBasketAction()
+    {
+        return $this->render('AppBundle:Basket:box.html.twig', [
+            'basket' => $this->get('basket'),
+            ]); 
+    }
     
 }

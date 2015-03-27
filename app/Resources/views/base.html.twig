@@ -2,16 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Strona główna{% endblock %}</title>
+        <title>{% block title %}SF-Shop{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
             <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
             
-            <style>
-                * {
-                    font-family: 'Open Sans', sans-serif;
-                }
-            </style>
+            
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -62,8 +58,8 @@
             </div>    
             
             <div class="row">
-                <div class="col-md-12">
-                    ShopApp
+                <div class="col-md-2">
+                    {{ render(controller('AppBundle:Basket:baseBasket')) }}
                 </div>
             </div>
             
