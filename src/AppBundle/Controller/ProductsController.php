@@ -60,7 +60,9 @@ class ProductsController extends Controller
             throw $this->createNotFoundException('Nie znaleziono produktu.');
         }
         
-       return $this->render('products/show.html.twig');
+       return $this->render('products/show.html.twig', [
+            'product' => $entity,
+        ]);
     }
 
 }

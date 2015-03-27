@@ -3,24 +3,22 @@
 {% block title %}Opis produktu{% endblock %}
 
 {% block body %}
-<table class="table table-striped">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Nazwa</th>
-                <td>{{ entity.name }}</td>
-            </tr>
-            <tr>
-                <th>Cena</th>
-                <td>{{ entity.price }}</td>
-            </tr>
-            <tr>
-                <th>Opis</th>
-                <td>{{ entity.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+
+<div class="col-md-3 col-lg-3">
+<a href="#" class="thumbnail">
+      <img src="http://placehold.it/240x330" alt="" class="img-thumbnail">
+    </a>
+</div>
+
+<div class="col-md-6 col-lg-6">
+
+    <h1>{{ product.name }}</h1>
+    {{ product.description }}
+    <div class="thumbnail">
+   
+        <h2>{{ product.price }} zł<span style="padding-left:150px"><a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-warning" role="button">Dodaj do koszyka</a></span></h2>
+                   
+    </div>
+</div>
+<div class="col-md-12"></div> 
 {% endblock %}
