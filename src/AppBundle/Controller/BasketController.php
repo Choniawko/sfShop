@@ -26,7 +26,7 @@ class BasketController extends Controller
      * @Route("/koszyk/{id}/dodaj", name="basket_add")
      * @Template()
      */
-    public function addAction(Product $product = null)
+    public function addAction(Product $product = null, Product $amount)
     {
        if (is_null($product)) {
         $this->addFlash('notice', 'Produkt który próbujesz dodać nie został znaleziony');
@@ -36,7 +36,11 @@ class BasketController extends Controller
        $basket->add($product);
 
         $this->addFlash('notice', sprintf('Produkt "%s" został dodany do koszyka', $product->getName()));
-
+       try {
+           $amount = 0;
+       } catch (Exception $e) {
+           $this->addFlash('notice', sprintf('Ilość produktu "%s" jest równa 0', $product->getName()));
+       }
         return $this->redirectToRoute('basket');
 
     }
