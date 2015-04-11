@@ -38,8 +38,18 @@
                 <td><h2>Koszyk jest pusty!<h2></td>
             </tr>
         {% endfor %}
-
+       
+       
         </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td>Podsumowanie</td>
+            <td>{{ basket.price| number_format(2, ', ') }}</td>
+            <td>{{ basket.quantity }}</td>
+            <td><a href="" class="btn btn-primary">Zamów</a></td>
+        </tr>
+        </tfoot>
 </table>
-<a href="" class="btn btn-primary">Złóż zamówienie</a>
+
 {% endblock %}

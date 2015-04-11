@@ -33,19 +33,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    /**
-    * @Route("/produkty/dodaj", name="products_add")
-    *
-    */
-    public function addAction(Request $request)
-    {
-        $form = $this->createForm(new ProductType());
-        $form->handleRequest($request);
 
-        return $this->render('products/add.html.twig', [
-               'form' => $form->createView(),
-            ]);
-    }
     
     /**
     * @Route("/produkty/pokaz/{id}", name="products_show")
@@ -64,5 +52,42 @@ class ProductsController extends Controller
             'product' => $entity,
         ]);
     }
-
+ 
+       /**
+     * @Route("/szukaj", name="product_search")
+     */
+    public function searchAction(Request $request)
+    {
+        $query = $request->query->get('query');
+        
+        // validacja wartości przekazanej w parametrze
+//        $constraint = new NotBlank();
+//        $errors = $this->get('validator')->validate($query, $constraint);
+        
+        // alternatywny sposób zapisu zapytania
+//        $products = $this->getDoctrine()
+//            ->getManager()
+//            ->createQueryBuilder()
+//            ->from('AppBundle:Product', 'p')
+//            ->select('p')
+//            ->where('p.name LIKE :query')
+//            ->setParameter('query', '%'.$query.'%')
+//            ->getQuery()
+//            ->getResult();
+        
+        $products = $this->getDoctrine()
+            ->getRepository('AppBundle:Product')
+            ->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.name LIKE :query')
+            ->orWhere('p.description LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->getResult();
+        
+        return $this->render('products/search.html.twig', [
+            'query'     => $query,
+            'products'  => $products
+        ]);
+    }
 }

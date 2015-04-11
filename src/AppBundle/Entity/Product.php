@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -25,6 +26,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -32,6 +34,7 @@ class Product
      * @var text
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -40,14 +43,16 @@ class Product
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
      */
-    private $price;
+    private $price = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="amount", type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(min=0.01, minMessage="Cena musi być większa lub równa {{ limit }} zł.")
      */
-    private $amount;
+    private $amount = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="product")

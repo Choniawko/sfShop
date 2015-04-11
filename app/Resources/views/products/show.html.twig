@@ -19,6 +19,7 @@
         <h2>{{ product.price }} zł<span style="padding-left:150px"><a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-warning" role="button">Dodaj do koszyka</a></span></h2>
                    
     </div>
+    <a href="{{ path('products_list') }}" class="btn btn-primary">Kupuj dalej</a>
 </div>
 <div class="col-md-12"></div> 
 {% endblock %}
