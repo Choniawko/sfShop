@@ -67,6 +67,11 @@ class Product
      */
     private $comments;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
 
     /**
      * Get id

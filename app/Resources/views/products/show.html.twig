@@ -1,25 +1,68 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Opis produktu{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
 
-<div class="col-md-3 col-lg-3">
-<a href="#" class="thumbnail">
-      <img src="http://placehold.it/240x330" alt="" class="img-thumbnail">
-    </a>
-</div>
+    <div class="thumbnail clearfix">
+        <img src="http://placehold.it/240x200" alt="" class="img-thumbnail">
+        <div class="caption">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description | truncate(50, true, ' (...)') }}</p>
+            <p>Dostępnych: {{ product.amount }}</p>
 
-<div class="col-md-6 col-lg-6">
-
-    <h1>{{ product.name }}</h1>
-    {{ product.description }}
-    <div class="thumbnail">
-   
-        <h2>{{ product.price }} zł<span style="padding-left:150px"><a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-warning" role="button">Dodaj do koszyka</a></span></h2>
-                   
+            <div class="pull-left">
+                <p>
+                    <a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-primary" role="button">Koszyk</a> 
+                    <a href="#" class="btn btn-default" role="button">Pokaż</a>
+                </p>
+            </div>
+            <div class="pull-right">
+                <h4 class="text-danger">{{ product.price }}</h4>
+            </div>
+        </div>
     </div>
-    <a href="{{ path('products_list') }}" class="btn btn-primary">Kupuj dalej</a>
-</div>
-<div class="col-md-12"></div> 
+
+    <h2> Komentarze</h2>
+
+    <form method="post" novalidate>
+
+        <div class="form-group">
+            {{ form_row(form.content) }}
+
+            {#
+                {{ form_label(form.content) }}
+                {{ form_errors(form.content) }}
+                {{ form_widget(form.content) }}
+            #}
+
+        </div>
+
+        {{ form_rest(form) }}
+
+        <input class="btn btn-success" type="submit" value="Dodaj komentarz" />
+
+    </form>
+
+    <br />
+    
+    {% for comment in product.comments %}
+
+        <div class="row">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>{{ comment.content }}</p>
+                    <small>Dodany {{ comment.createdAt|date('d-m-Y') }}</small>
+                </div>
+            </div>
+
+        </div>
+    
+    {% else %}
+        
+        <p> Nie ma jeszcze żadnych komentarzy. Dodaj swój jako pierwszy!</p>
+
+    {% endfor %}
+
 {% endblock %}

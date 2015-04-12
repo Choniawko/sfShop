@@ -2,13 +2,13 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-
 use AppBundle\Entity\Category;
-use AppBundle\Form\ProductType;
-
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Product;
+use AppBundle\Form\CommentType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductsController extends Controller
 {
@@ -32,28 +32,38 @@ class ProductsController extends Controller
             'products' => $pagination,
         ]);
     }
-
-
     
     /**
-    * @Route("/produkty/pokaz/{id}", name="products_show")
-    */
-    public function showAction($id)
+     * @Route("/produkt/{id}", name="product_show")
+     */
+    public function showAction(Product $product, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AppBundle:Product')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Nie znaleziono produktu.');
+        $comment = new Comment();
+        $comment->setProduct($product);
+        
+        $form = $this->createForm(new CommentType(), $comment);
+        
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist($comment);
+            $em->flush();
+            
+            $this->addFlash('notice', "Komentarz został pomyślnie zapisany.");
+            
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
         }
         
-       return $this->render('products/show.html.twig', [
-            'product' => $entity,
+        return $this->render('products/show.html.twig', [
+            'product'   => $product,
+            'form'      => $form->createView()
         ]);
     }
- 
-       /**
+    
+    /**
      * @Route("/szukaj", name="product_search")
      */
     public function searchAction(Request $request)
@@ -90,4 +100,5 @@ class ProductsController extends Controller
             'products'  => $products
         ]);
     }
+
 }
