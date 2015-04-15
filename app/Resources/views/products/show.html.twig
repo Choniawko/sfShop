@@ -25,6 +25,8 @@
 
     <h2> Komentarze</h2>
 
+    
+
     <form method="post" novalidate>
 
         <div class="form-group">
@@ -53,7 +55,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p>{{ comment.content }}</p>
-                    <small>Dodany {{ comment.createdAt|date('d-m-Y') }}</small>
+                    <small>Dodany {{ comment.createdAt|date('d-m-Y') }} przez {{ comment.user }}</small>
                 </div>
             </div>
 

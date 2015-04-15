@@ -42,6 +42,9 @@ class Product
      * @var decimal
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Range(min=0.01, minMessage="Cena musi być większa lub równa {{ limit }} zł.")
      */
     private $price = 0;
 
@@ -50,12 +53,14 @@ class Product
      *
      * @ORM\Column(name="amount", type="integer")
      * @Assert\NotBlank()
-     * @Assert\Range(min=0.01, minMessage="Cena musi być większa lub równa {{ limit }} zł.")
+     * @Assert\Range(min=0, minMessage="Dostępna ilość sztuk musi być większa lub równa {{ limit }}.")
      */
     private $amount = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="product")
+     *
+     * @Assert\NotNull(message="Proszę wybrać odpowiednią kategorię")
      */
     private $category;
 

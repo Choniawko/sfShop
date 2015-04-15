@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,21 +11,21 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\View\TwitterBootstrapView;
 
-use AppBundle\Entity\Product;
-use AppBundle\Form\ProductType;
-use AppBundle\Form\ProductFilterType;
+use AppBundle\Entity\Category;
+use AppBundle\Form\CategoryType;
+use AppBundle\Form\CategoryFilterType;
 
 /**
- * Product controller.
+ * Category controller.
  *
- * @Route("/admin/product")
+ * @Route("/admin/category")
  */
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
-     * Lists all Product entities.
+     * Lists all Category entities.
      *
-     * @Route("/", name="product")
+     * @Route("/", name="admin_category")
      * @Method("GET")
      * @Template()
      */
@@ -50,13 +50,13 @@ class ProductController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new ProductFilterType());
+        $filterForm = $this->createForm(new CategoryFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('AppBundle:Product')->createQueryBuilder('e');
+        $queryBuilder = $em->getRepository('AppBundle:Category')->createQueryBuilder('e');
 
         // Reset filter
         if ($request->get('filter_action') == 'reset') {
-            $session->remove('ProductControllerFilter');
+            $session->remove('CategoryControllerFilter');
         }
 
         // Filter action
@@ -69,13 +69,13 @@ class ProductController extends Controller
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
                 // Save filter to session
                 $filterData = $filterForm->getData();
-                $session->set('ProductControllerFilter', $filterData);
+                $session->set('CategoryControllerFilter', $filterData);
             }
         } else {
             // Get filter from session
-            if ($session->has('ProductControllerFilter')) {
-                $filterData = $session->get('ProductControllerFilter');
-                $filterForm = $this->createForm(new ProductFilterType(), $filterData);
+            if ($session->has('CategoryControllerFilter')) {
+                $filterData = $session->get('CategoryControllerFilter');
+                $filterForm = $this->createForm(new CategoryFilterType(), $filterData);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -100,7 +100,7 @@ class ProductController extends Controller
         $me = $this;
         $routeGenerator = function($page) use ($me)
         {
-            return $me->generateUrl('product', array('page' => $page));
+            return $me->generateUrl('admin_category', array('page' => $page));
         };
 
         // Paginator - view
@@ -116,16 +116,16 @@ class ProductController extends Controller
     }
 
     /**
-     * Creates a new Product entity.
+     * Creates a new Category entity.
      *
-     * @Route("/", name="product_create")
+     * @Route("/", name="admin_category_create")
      * @Method("POST")
-     * @Template("AppBundle:Product:new.html.twig")
+     * @Template("AppBundle:Category:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity  = new Product();
-        $form = $this->createForm(new ProductType(), $entity);
+        $entity  = new Category();
+        $form = $this->createForm(new CategoryType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -134,7 +134,7 @@ class ProductController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
-            return $this->redirect($this->generateUrl('product_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_category_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -144,16 +144,16 @@ class ProductController extends Controller
     }
 
     /**
-     * Displays a form to create a new Product entity.
+     * Displays a form to create a new Category entity.
      *
-     * @Route("/new", name="product_new")
+     * @Route("/new", name="admin_category_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Product();
-        $form   = $this->createForm(new ProductType(), $entity);
+        $entity = new Category();
+        $form   = $this->createForm(new CategoryType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -162,9 +162,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Finds and displays a Product entity.
+     * Finds and displays a Category entity.
      *
-     * @Route("/{id}", name="product_show")
+     * @Route("/{id}", name="admin_category_show")
      * @Method("GET")
      * @Template()
      */
@@ -172,10 +172,10 @@ class ProductController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Product')->find($id);
+        $entity = $em->getRepository('AppBundle:Category')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+            throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -187,9 +187,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Product entity.
+     * Displays a form to edit an existing Category entity.
      *
-     * @Route("/{id}/edit", name="product_edit")
+     * @Route("/{id}/edit", name="admin_category_edit")
      * @Method("GET")
      * @Template()
      */
@@ -197,13 +197,13 @@ class ProductController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Product')->find($id);
+        $entity = $em->getRepository('AppBundle:Category')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+            throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $editForm = $this->createForm(new ProductType(), $entity);
+        $editForm = $this->createForm(new CategoryType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -214,24 +214,24 @@ class ProductController extends Controller
     }
 
     /**
-     * Edits an existing Product entity.
+     * Edits an existing Category entity.
      *
-     * @Route("/{id}", name="product_update")
+     * @Route("/{id}", name="admin_category_update")
      * @Method("PUT")
-     * @Template("AppBundle:Product:edit.html.twig")
+     * @Template("AppBundle:Category:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Product')->find($id);
+        $entity = $em->getRepository('AppBundle:Category')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+            throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ProductType(), $entity);
+        $editForm = $this->createForm(new CategoryType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -239,7 +239,7 @@ class ProductController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
-            return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_category_edit', array('id' => $id)));
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
         }
@@ -252,9 +252,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Deletes a Product entity.
+     * Deletes a Category entity.
      *
-     * @Route("/{id}", name="product_delete")
+     * @Route("/{id}", name="admin_category_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -264,10 +264,10 @@ class ProductController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Product')->find($id);
+            $entity = $em->getRepository('AppBundle:Category')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Product entity.');
+                throw $this->createNotFoundException('Unable to find Category entity.');
             }
 
             $em->remove($entity);
@@ -277,11 +277,11 @@ class ProductController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'flash.delete.error');
         }
 
-        return $this->redirect($this->generateUrl('product'));
+        return $this->redirect($this->generateUrl('admin_category'));
     }
 
     /**
-     * Creates a form to delete a Product entity by id.
+     * Creates a form to delete a Category entity by id.
      *
      * @param mixed $id The entity id
      *

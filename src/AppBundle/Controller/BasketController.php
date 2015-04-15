@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Product;
+use AppBundle\Form\BasketForm;
 
 class BasketController extends Controller
 {
@@ -17,9 +18,14 @@ class BasketController extends Controller
      */
     public function indexAction(Request $request)
     {
-       
+        $basket = $this->get('basket');
+        $quantities = $request->request->get('quantity', []);
+        foreach ($quantities as $id => $quantity) {
+            $basket->updateQuantity($id, $quantity);
+        }  
+
         return array(
-            'basket' => $this->get('basket'),
+            'basket' => $basket
             );
     }
 
@@ -31,7 +37,7 @@ class BasketController extends Controller
     {
         if (is_null($product)) {
             $this->addFlash('error', 'Produkt, który próbujesz dodać nie został znaleziony!');
-            return $this->redirectToRoute('products_list');
+            return $this->redirect($request->headers->get('referer'));
         }
         
         try {

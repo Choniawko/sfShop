@@ -26,7 +26,8 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="content", type="text")
-     * @Assert\NotBlank(message="Proszę wprowadzić")
+     * 
+     * @Assert\NotBlank(message="Proszę wprowadzić treść komentarza.")
      * @Assert\Length(min=15, minMessage="Komentarz musi posiadać conajmniej {{ limit }} znaków.")
      */
     private $content;
@@ -51,13 +52,20 @@ class Comment
      * @ORM\Column(name="nbVoteDown", type="smallint")
      */
     private $nbVoteDown = 0;
+    
+    /**
+     * @var Product
+     * 
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="comments")
+     */
+    protected $product;
 
     /**
-    * @var Product
-    * 
-    * @ORM\ManyToOne(targetEntity="Product", inversedBy="comments")
-    */
-    private $product;
+     * @var User
+     * 
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     */
+    protected $user;
 
     /**
      * @var boolean
@@ -68,9 +76,8 @@ class Comment
 
     public function __construct()
     {
-        $this->createAt = new \DateTime("now");
+        $this->createdAt = new \DateTime("now");
     }
-
 
     /**
      * Get id
@@ -218,5 +225,28 @@ class Comment
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Comment
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

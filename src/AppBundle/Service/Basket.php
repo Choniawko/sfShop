@@ -49,6 +49,18 @@ class Basket
         return $this;
     }
 
+    public function updateQuantity($id, $quantity)
+    {
+        $products = $this->getProducts();
+
+        // aktualizujemy ilosc produktów w koszyku
+        $products[$id]['quantity'] = $quantity;
+
+        $this->session->set('basket', $products);
+
+        return $this;
+    }
+
     public function remove(Product $product)
     {
         $products = $this->getProducts();

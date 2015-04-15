@@ -38,21 +38,53 @@ class ProductsController extends Controller
      */
     public function showAction(Product $product, Request $request)
     {
+        // pobieramy aktualnie zalogowanego użytkownika
+        $user = $this->getUser();
+
+        // tworzymy nowy komentarz
         $comment = new Comment();
+
+        // przypisujemy produkt do komentarza
         $comment->setProduct($product);
         
+        // przypisujemy zalogowanego urzytkownika do komentarza
+        $comment->setUser($user);
+        
+
         $form = $this->createForm(new CommentType(), $comment);
         
+        // przetwarzamy dane wysłane z formularza - jeśli jakieś dane zostały wysłane
         $form->handleRequest($request);
+
+        // jeśli formularz został wysłany, a uzytkownik nie jest zalogowany
+        if ($form->isSubmitted() && !$user) {
+            $this->addFlash('error', "Aby móc dodawać komentarze musisz się wcześniej zalogować.");
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+        }
         
+        // jeśli formularz został wysłany i wszystkie wprowadzone dane są poprawne 
         if ($form->isValid()) {
             
+            // jesli użytkownik posiada uprawnienia administratora 
+            if ($user->hasRole('ROLE_ADMIN') || $user->isVerified()) {
+                // oznaczamy komentararz jako zweryfikowany
+                $comment->setVerified(true);
+            }
+            
+            // pobieramy entityManager
             $em = $this->getDoctrine()->getManager();
             
+            // zapisujemy komentarz do bazy danych            
             $em->persist($comment);
             $em->flush();
             
-            $this->addFlash('notice', "Komentarz został pomyślnie zapisany.");
+            // jeśli użytkownik posiada uprawinienia admina 
+            if ($user->hasRole('ROLE_ADMIN')) {
+                $this->addFlash('notice', "Komentarz został pomyślnie zapisany i opublikowany.");
+            } else {
+                $this->addFlash('notice', "Komentarz został pomyślnie zapisany i czeka na weryfikacje");
+            }
+            
             
             return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
         }
