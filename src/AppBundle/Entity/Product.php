@@ -75,6 +75,13 @@ class Product
      */
     private $comments;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Order", inversedBy="products")
+     */
+    private $orders;
+
     public function __toString()
     {
         return $this->name;
@@ -243,5 +250,38 @@ class Product
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     * @return Product
+     */
+    public function addOrder(\AppBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     */
+    public function removeOrder(\AppBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

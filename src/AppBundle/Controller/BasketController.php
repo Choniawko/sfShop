@@ -91,8 +91,9 @@ class BasketController extends Controller
     public function clearAction()
     {
 
-        $this->get('basket')
-        ->clear();
+        $this
+            ->get('basket')
+            ->clear();
 
         $this->addFlash('notice', 'Koszyk został pomyślnie wyczyszczony');
         return $this->RedirectToRoute('basket');    
