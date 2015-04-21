@@ -80,7 +80,7 @@
                         {{ render(controller('AppBundle:Category:list')) }}
                     </div>
                 {% endblock %}
-                <div class="col-md-10">
+                <div class="col-md-8">
 
                     {% for flashMessage in app.session.flashbag.get('notice') %}
                         <div class="alert alert-success alert-dismissible" role="alert">
@@ -99,7 +99,11 @@
                 {% block body %}{% endblock %}
 
             </div>
-        </div>    
+            <div class="col-md-2">
+                {{ render(controller('AppBundle:Basket:baseBasket')) }}
+            </div>
+        </div>   
+
 
         <div class="row">
             {% block footer %}

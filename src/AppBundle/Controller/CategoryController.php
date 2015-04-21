@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $qb
             ->select('c, p')
             ->from('AppBundle:Category', 'c')
-            ->innerJoin('c.product', 'p');
+            ->innerJoin('c.products', 'p');
             
             
         $categories = $qb

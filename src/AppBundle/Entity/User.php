@@ -21,8 +21,8 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-     /**
+    
+    /**
      * @var ArrayCollection
      * 
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
@@ -32,8 +32,8 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        // your own logic
     }
-
 
     /**
      * Get id

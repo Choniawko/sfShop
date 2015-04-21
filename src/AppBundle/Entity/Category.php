@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Category
  *
  * @ORM\Table(name="category")
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class Category
 {
@@ -30,15 +30,15 @@ class Category
     private $name;
 
     /**
+     *
      * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
      */
-    private $product;
+    private $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -74,36 +74,36 @@ class Category
     }
 
     /**
-     * Add product
+     * Add products
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\Product $products
      * @return Category
      */
-    public function addProduct(\AppBundle\Entity\Product $product)
+    public function addProduct(\AppBundle\Entity\Product $products)
     {
-        $this->product[] = $product;
+        $this->products[] = $products;
 
         return $this;
     }
 
     /**
-     * Remove product
+     * Remove products
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\Product $products
      */
-    public function removeProduct(\AppBundle\Entity\Product $product)
+    public function removeProduct(\AppBundle\Entity\Product $products)
     {
-        $this->product->removeElement($product);
+        $this->products->removeElement($products);
     }
 
     /**
-     * Get product
+     * Get products
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProduct()
+    public function getProducts()
     {
-        return $this->product;
+        return $this->products;
     }
 
     public function __toString()

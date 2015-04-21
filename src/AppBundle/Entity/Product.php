@@ -26,23 +26,26 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * 
      * @Assert\NotBlank()
+     * @Assert\Length(min=5, minMessage="Tytuł musi mieć conajmniej {{ limit }} znaków.")
      */
     private $name;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * 
      * @Assert\NotBlank()
      */
     private $description;
 
     /**
-     * @var decimal
+     * @var string
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
-     *
+     * 
      * @Assert\NotBlank()
      * @Assert\Range(min=0.01, minMessage="Cena musi być większa lub równa {{ limit }} zł.")
      */
@@ -52,21 +55,21 @@ class Product
      * @var integer
      *
      * @ORM\Column(name="amount", type="integer")
+     * 
      * @Assert\NotBlank()
      * @Assert\Range(min=0, minMessage="Dostępna ilość sztuk musi być większa lub równa {{ limit }}.")
      */
     private $amount = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="product")
-     *
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+     * 
      * @Assert\NotNull(message="Proszę wybrać odpowiednią kategorię")
      */
     private $category;
-
-
+    
     /**
-     * @var ArrayColection
+     * @var ArrayCollection
      * 
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="product")
      */
@@ -76,7 +79,6 @@ class Product
     {
         return $this->name;
     }
-
 
     /**
      * Get id
@@ -137,7 +139,7 @@ class Product
     /**
      * Set price
      *
-     * @param integer $price
+     * @param string $price
      * @return Product
      */
     public function setPrice($price)
@@ -150,7 +152,7 @@ class Product
     /**
      * Get price
      *
-     * @return integer 
+     * @return string 
      */
     public function getPrice()
     {

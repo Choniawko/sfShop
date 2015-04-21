@@ -1,0 +1,75 @@
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block sidebar %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+<style>
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
+    
+    
+{% endblock %}
+
+{% block body %}
+  {% block fos_user_content %}
+    <form class="form-signin" action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="post">
+      <h2>Zarejestruj się</h2>
+
+      <label for="email">{{ 'form.email' |trans }}</label>
+      <input type="email" class="form-control" id="email" name="_email" />
+
+      <label for="username">{{ 'form.username' |trans }}</label>
+      <input type="text" class="form-control" id="username" name="_username" />
+
+      <label for="password">{{ 'form.password' |trans }}</label>
+      <input type="password" class="form-control" id="password" name="_password" />
+
+      <label for="repeat_password">{{ 'form.password_confirmation' |trans }}</label>
+      <input type="password" class="form-control" id="repeat_password" name="_repeat_password" />
+
+      <div>
+        <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-lg btn-primary btn-block" />
+    </div>
+    </form>
+{% endblock fos_user_content %}
+
+
+
+{% endblock %}

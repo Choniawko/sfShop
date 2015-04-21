@@ -66,7 +66,7 @@ class ProductsController extends Controller
         if ($form->isValid()) {
             
             // jesli użytkownik posiada uprawnienia administratora 
-            if ($user->hasRole('ROLE_ADMIN') || $user->isVerified()) {
+            if ($user->hasRole('ROLE_ADMIN')) {
                 // oznaczamy komentararz jako zweryfikowany
                 $comment->setVerified(true);
             }
