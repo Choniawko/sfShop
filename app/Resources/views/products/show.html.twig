@@ -25,38 +25,43 @@
 
     <h2> Komentarze</h2>
 
-    
+    {% if not app.user %}
 
-    <form method="post" novalidate>
+     <p>Aby dodać komentarz musisz się wcześniej <a href="{{ path('fos_user_security_login') }}" title="Formularz_logowania">Zalogować</a>.</p>
+     {% else %}
+        <form method="post" novalidate>
 
-        <div class="form-group">
-            {{ form_row(form.content) }}
+            <div class="form-group">
+                {{ form_row(form.content) }}
 
-            {#
-                {{ form_label(form.content) }}
-                {{ form_errors(form.content) }}
-                {{ form_widget(form.content) }}
-            #}
+                {#
+                    {{ form_label(form.content) }}
+                    {{ form_errors(form.content) }}
+                    {{ form_widget(form.content) }}
+                #}
 
-        </div>
+            </div>
 
-        {{ form_rest(form) }}
+            {{ form_rest(form) }}
 
-        <input class="btn btn-success" type="submit" value="Dodaj komentarz" />
+            <input class="btn btn-success" type="submit" value="Dodaj komentarz" />
 
-    </form>
+        </form>
+
+    {% endif %}
 
     <br />
     
-    {% for comment in product.comments %}
+    {% for comment in product.comments if comment.verified %}
 
-        <div class="row">
+        <div class="panel panel-default">
 
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="panel panel-body">
+                <div class="pull-right">
+                    {{ comment.nbVoteUp }} <a href="#" title="Up"> up </a> | {{ comment.nbVoteDown }} <a href="#" title="Down"> down </a>
+                </div>
                     <p>{{ comment.content }}</p>
                     <small>Dodany {{ comment.createdAt|date('d-m-Y') }} przez {{ comment.user }}</small>
-                </div>
             </div>
 
         </div>
