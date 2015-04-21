@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Order;
 use AppBundle\Form\BasketForm;
 
 class BasketController extends Controller
@@ -116,13 +117,5 @@ class BasketController extends Controller
             ]); 
     }
 
-    /**
-     * @Route("/koszyk/zamowienie", name="basket_order")
-     * @Template()
-     */
-    public function orderAction()
-    {
-        return $this->render('AppBundle:Basket:order.html.twig'); 
-    }
     
 }

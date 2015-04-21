@@ -35,7 +35,7 @@ class Order
      * @ORM\Column(name="order_value", type="decimal", precision=10, scale=2)
      */
     private $order_value;
-
+    
     /**
      * @var ArrayCollection
      *
@@ -46,6 +46,7 @@ class Order
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
 
@@ -137,4 +138,5 @@ class Order
     {
         return $this->products;
     }
+
 }

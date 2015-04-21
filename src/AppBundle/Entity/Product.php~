@@ -251,4 +251,37 @@ class Product
     {
         return $this->comments;
     }
+
+    /**
+     * Add orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     * @return Product
+     */
+    public function addOrder(\AppBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     */
+    public function removeOrder(\AppBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
 }
