@@ -20,16 +20,16 @@ class BasketController extends Controller
     public function indexAction(Request $request)
     {
         $basket = $this->get('basket');
-        $quantities = $request->request->get('quantity', []);
+        $quantities = $request->request->get('quantity', []); 
         foreach ($quantities as $id => $quantity) {
+            
             $basket->updateQuantity($id, $quantity);
-        }  
-
+        }
+        
         return array(
             'basket' => $basket
-            );
+        );
     }
-
     /**
      * @Route("/koszyk/{id}/dodaj", name="basket_add")
      * @Template()

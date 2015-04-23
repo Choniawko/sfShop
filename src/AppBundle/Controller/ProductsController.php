@@ -134,9 +134,7 @@ class ProductsController extends Controller
     }
 
 
-     /**
-     * @Route("/zamowienie", name="products_order")
-     */
+  
     public function orderAction()
     {
         // Pobranie usługi koszyka
@@ -163,9 +161,7 @@ class ProductsController extends Controller
         $em->persist($order);
         $em->flush();
 
-        return $this->render('products/order.html.twig', [
-            'orders' => $orders,
-        ]); 
+       
 
     }
 }

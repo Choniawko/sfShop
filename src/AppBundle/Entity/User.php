@@ -29,6 +29,12 @@ class User extends BaseUser
      */
     protected $comments;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Orders", mappedBy="user")
+     */
+    protected $orders;
+
     public function __construct()
     {
         parent::__construct();
@@ -76,5 +82,40 @@ class User extends BaseUser
     public function getComments()
     {
         return $this->comments;
+    }
+
+    
+
+    /**
+     * Add orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     * @return User
+     */
+    public function addOrder(\AppBundle\Entity\Orders $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     */
+    public function removeOrder(\AppBundle\Entity\Orders $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

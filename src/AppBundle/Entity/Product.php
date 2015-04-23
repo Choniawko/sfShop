@@ -78,7 +78,7 @@ class Product
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Order", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="Orders", inversedBy="products")
      */
     private $orders;
 
@@ -86,6 +86,17 @@ class Product
     {
         return $this->name;
     }
+
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    
 
     /**
      * Get id
@@ -211,13 +222,6 @@ class Product
     {
         return $this->category;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add comments
@@ -252,13 +256,15 @@ class Product
         return $this->comments;
     }
 
+    
+
     /**
      * Add orders
      *
-     * @param \AppBundle\Entity\Order $orders
+     * @param \AppBundle\Entity\Orders $orders
      * @return Product
      */
-    public function addOrder(\AppBundle\Entity\Order $orders)
+    public function addOrder(\AppBundle\Entity\Orders $orders)
     {
         $this->orders[] = $orders;
 
@@ -268,9 +274,9 @@ class Product
     /**
      * Remove orders
      *
-     * @param \AppBundle\Entity\Order $orders
+     * @param \AppBundle\Entity\Orders $orders
      */
-    public function removeOrder(\AppBundle\Entity\Order $orders)
+    public function removeOrder(\AppBundle\Entity\Orders $orders)
     {
         $this->orders->removeElement($orders);
     }

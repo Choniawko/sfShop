@@ -40,6 +40,13 @@ class Category
         $this->products = new ArrayCollection();
     }
 
+   
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * Get id
      *
@@ -104,10 +111,5 @@ class Category
     public function getProducts()
     {
         return $this->products;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }
