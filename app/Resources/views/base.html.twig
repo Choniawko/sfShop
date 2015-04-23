@@ -36,8 +36,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li><a href="{{ path('products_list') }}">Produkty</a></li>
-                            <li><a href="{{ path('basket') }}">Koszyk</a></li>
-                            <li><a href="{{ path('orders_list') }}">Moje Zamówienia</a></li>                          
+                            <li><a href="{{ path('basket') }}">Koszyk</a></li>                          
                         </ul>
                         <form action="{{ path('product_search') }}" class="navbar-form navbar-left" role="search">
                             <div class="form-group">
@@ -56,7 +55,7 @@
                                             <li class="divider"></li>
                                         {% endif %}
                                         <li><a href="{{ path('fos_user_profile_edit') }}">Profil</a></li>
-                                        <li><a href="#">Moje zamówienia</a></li>
+                                        <li><a href="{{ path('orders_list') }}">Moje zamówienia</a></li>
                                         <li><a href="#">Moje komentarze</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{{ path('fos_user_security_logout') }}">Wyloguj</a></li>

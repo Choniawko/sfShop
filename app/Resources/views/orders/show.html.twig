@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ parent() }}| Podgląd zamówienia {% endblock %}
+
+
+{% block body %}
+    <h1>Szczegóły zamówienia z dnia {{ order.getCreatedAt|date('d/m/y') }}</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Zamówione produkty:</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set number = 1 %}
+            {% for product in products %}
+                <tr>
+                    <td>{{ number }} . <a href="{{ path('product', {'id': product.id}) }}">{{ product.name }}</a></td>
+                    <td></td>
+                </tr>                         
+                {% set number = number + 1 %}
+                {% if loop.last %} 
+
+                    <tr>
+                        <td>SUMA ZAMOWIONYCH PRODUKTOW</td>
+                        <td>{{ order.getOrderValue }} zł</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+        <td><a href =" {{ path('orders_list') }} " class="btn btn-primary" title="Go to orders list">Wróć do listy</a></td>
+        <td><a href="#" class="btn btn-success">Opłać</a></td>
+    </tr>
+        </tbody>
+    </table>
+    
+    
+{% endblock %}

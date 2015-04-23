@@ -12,8 +12,8 @@ use AppBundle\Entity\Orders;
  class OrderController extends Controller
  {
  	/**
- * @Route("/zamowienia", name="orders_list")
- */
+     * @Route("/zamowienia", name="orders_list")
+     */
     public function indexAction()
     {
 
@@ -22,5 +22,26 @@ use AppBundle\Entity\Orders;
          return $this->render('orders/index.html.twig', [
              'orders' => $orders,
          ]);
+    }
+    
+    /**
+     * @Route("/zamowienia/show/{id}/", name="order_show")
+     */
+    public function editAction($id)
+    {
+    	$order = $this->getDoctrine()
+    	              ->getRepository('AppBundle:Orders')
+    	              ->find($id);
+
+    	if (!$order) {
+    		throw $this->createNotFoundException(
+    			    'Nie znaleziono zamówienia nr' . $id
+    	    );
+    	}
+    	$products = $order->getProducts();
+    	return $this->render('orders/show.html.twig', [
+            'products' => $products,
+            'order' => $order,   
+    	]);
     }
  } 
