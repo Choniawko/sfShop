@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Product;
-use AppBundle\Entity\Order;
+use AppBundle\Entity\Orders;
 use AppBundle\Form\BasketForm;
 
 class BasketController extends Controller
@@ -100,21 +100,56 @@ class BasketController extends Controller
         return $this->RedirectToRoute('basket');    
     }
 
-    /**
-     * @Route("/koszyk/kup")
-     * @Template()
-     */
-    public function buyAction()
-    {
-        return array(
-                // ...
-            );    }
-
     public function baseBasketAction()
     {
         return $this->render('AppBundle:Basket:box.html.twig', [
             'basket' => $this->get('basket'),
             ]); 
+    }
+
+    /**
+     * @Route("/koszyk/kup", name="basket_order")
+     * @Template()
+     */
+    public function orderAction()
+    {
+        // Pobranie usługi koszyka
+        $basket = $this->get('basket');
+        $products = $basket->getProducts();
+        
+        // Utworzenie nowego obiektu zamówienia 
+        $em = $this->getDoctrine()->getManager();
+        $order = new Orders();
+
+        // Przypisanie produktów do zamówienia
+        foreach($products as $value) {
+        // Wybranie produkty z bazy na podstawie id
+            $product = $em->getRepository('AppBundle:Product')
+                          ->find($value['id']);
+        // Przypisanie utworzonego zamówienia do pojedyńczego produktu
+            $product->addOrder($order);
+
+        // Przypisanie pojedyńczego produktu do zamówienia
+            $order->addProduct($product);
+        // Przypisanie parametrów zamówienia 
+            $order->setCreatedAt();
+            $order->setModifiedAt();
+            $order->setOrderValue($basket->getPrice());
+            $order->setRealised(FALSE);
+            $order->setUser($user = $this->getUser());
+        }        
+        
+        //zapisujemy zamówienie do bazy
+        $em->persist($order);
+        $em->flush();
+
+        //czyszczenie koszyka
+        $basket->clear();
+
+        // Przejście na strone produktów
+        return $this->redirectToRoute('products_list');
+
+
     }
 
     

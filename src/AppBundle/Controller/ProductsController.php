@@ -133,35 +133,4 @@ class ProductsController extends Controller
         ]);
     }
 
-
-  
-    public function orderAction()
-    {
-        // Pobranie usługi koszyka
-        $basket = $this->get('basket');
-        $products = $basket->getProducts();
-
-        // Pobranie identyfikatorów produktów z sesji
-        $products_id = array_keys($products);
-
-        // Wybranie produkty z bazy na podstawie id
-        $products = $this
-                        ->getDoctrine()
-                        ->getRepository('AppBundle:Product')
-                        ->find($products_id);
-        // Utworzenie nowego obiektu zamówienia 
-        $order = new Order();
-        // Przypisujemy poszczególne produkty do zamówienia
-        foreach($products as $product) {
-            $order->addProduct($product);
-        }
-        
-        //zapisujemy zamówienie do bazy
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($order);
-        $em->flush();
-
-       
-
-    }
 }

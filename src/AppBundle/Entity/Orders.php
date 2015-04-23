@@ -22,25 +22,23 @@ class Orders
     private $id;
 
     /**
-     * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    private $created_at;
 
     /**
-     * @var \DateTime
      *
      * @ORM\Column(name="modified_at", type="datetime")
      */
-    private $modifiedAt;
+    private $modified_at;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="order_value", type="decimal")
+     * @ORM\Column(name="order_value", type="decimal", precision=10, scale=2)
      */
-    private $orderValue;
+    private $order_value;
 
     /**
      * @var boolean
@@ -71,26 +69,25 @@ class Orders
     }
 
     /**
-     * Set createdAt
+     * Set created_at
      *
      * @param \DateTime $createdAt
      * @return Orders
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = new \DateTime("now");
 
-        return $this;
     }
 
     /**
-     * Get createdAt
+     * Get created_at
      *
      * @return \DateTime 
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     /**
@@ -99,11 +96,10 @@ class Orders
      * @param \DateTime $modifiedAt
      * @return Orders
      */
-    public function setModifiedAt($modifiedAt)
+    public function setModifiedAt()
     {
-        $this->modifiedAt = $modifiedAt;
+        $this->modified_at = new \DateTime("now");
 
-        return $this;
     }
 
     /**
@@ -113,30 +109,30 @@ class Orders
      */
     public function getModifiedAt()
     {
-        return $this->modifiedAt;
+        return $this->modified_at;
     }
 
     /**
-     * Set orderValue
+     * Set order_value
      *
      * @param string $orderValue
      * @return Orders
      */
     public function setOrderValue($orderValue)
     {
-        $this->orderValue = $orderValue;
+        $this->order_value = $orderValue;
 
         return $this;
     }
 
     /**
-     * Get orderValue
+     * Get order_value
      *
      * @return string 
      */
     public function getOrderValue()
     {
-        return $this->orderValue;
+        return $this->order_value;
     }
 
     /**

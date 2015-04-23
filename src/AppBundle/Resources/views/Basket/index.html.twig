@@ -25,7 +25,7 @@
                     {% for product in basket.products %}
                         <tr>
                             <td>{{ product.id }}</td>
-                            <td>{{ product.name }}</td>
+                            <td><a class="btn" href="{{ path('product_show', { 'id': product.id }) }}">{{ product.name }}</a></td>
                             <td>{{ product.price }}</td>
                             <td class="col-xs-1">
                                 <input type="text" class="form-control" name="quantity[{{ product.id }}]" value="{{ product.quantity }}" /></td>
@@ -41,7 +41,7 @@
                         <td>Podsumowanie</td>
                         <td>{{ basket.price|number_format(2, ',', '') }}</td>
                         <td>{{ basket.quantity }}</td>
-                        <td></td>
+                        <td><a href="{{ path('basket_order') }}" class="btn btn-success">Zamów</a></td>
                     </tr>
                 </tfoot>
             </table>

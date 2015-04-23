@@ -13,5 +13,14 @@ use AppBundle\Entity\Order;
  */
  class OrderController extends Controller
  {
-    
+    public function indexAction()
+    {
+    	$orders = $this
+    	             ->getUser()
+    	             ->getOrders();
+
+        return $this->render('orders/index.html.twig', [
+            'orders' => $orders
+        ]);
+    }
  } 
