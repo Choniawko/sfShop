@@ -1,16 +1,35 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Zamówienia{% endblock %}
+{% block title %}{{ parent() }} | Zamówienia{% endblock %}
 
 {% block body %}
-
+    <h1>Twoje Zamówienia</h1>
+    <table class="table table-striped">
+    	<thead>
+            <tr>
+            	<th>Użytkownik:</th>
+                <th>Wartość zamówienia:</th>
+                <th>data zamówienia:</th>
+                <th>Status zamówienia:</th>
+            </tr>
+        </thead>
+        <tbody>
 {% for order in orders %}
-    <div class="row offer">
-    	<div class="bright">
-    		<h4>{{ order.orderValue }}</h4>
-    		<h4></h4>
-    	</div>
-    </div>
+       <tr>
+    		<td>{{ order.user }}</td>
+    		<td>{{ order.orderValue }}</td>
+    		<td>{{ order.createdAt|date("m/d/Y") }}</td>
+    		<td>{% if order.getRealised == FALSE %}
+    		    <span class="label label-default">Oczekujące</span>
+    		    {% else %}
+    		    <span class="label label-realizowane!"></span>
+    	        {% endif %}
+    	    </td>
+        </tr>
 {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock body %}
+
+
