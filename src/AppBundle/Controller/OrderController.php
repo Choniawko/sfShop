@@ -44,4 +44,31 @@ use AppBundle\Entity\Orders;
             'order' => $order,   
     	]);
     }
+
+    /**
+    * @Route("/zamowienia/usun/{id}/", name="order_remove")
+    */
+    public function removeAction($id)
+    {
+    	$em = $this->getDoctrine()
+    	           ->getManager();
+
+    	$order = $this->getDoctrine()
+    	              ->getRepository('AppBundle:Orders')
+    	              ->find($id);
+
+    	if (!$order) {
+    		throw $this->createNotFoundException(
+    			     'Nie znaleziono zamówienia nr' . $id
+    	    );
+
+    	}
+    	$em->remove($order);
+    	$em->flush();
+
+    	return $this->redirectToRoute('orders_list');
+
+        }
+
+
  } 

@@ -147,7 +147,7 @@ class BasketController extends Controller
         $basket->clear();
 
         // Przejście na strone produktów
-        return $this->redirectToRoute('products_list');
+        return $this->redirectToRoute('orders_list');
 
 
     }
