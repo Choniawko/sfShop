@@ -70,5 +70,30 @@ use AppBundle\Entity\Orders;
 
         }
 
+    /**
+     * @Route("/zamowienia/realizuj/{id}/", name="order_realize")
+     */
+    public function realizeAction($id)
+    {
+    	$em = $this->getDoctrine()
+    	           ->getManager();
+
+    	$order = $this->getDoctrine()
+    	              ->getRepository('AppBundle:Orders')
+    	              ->find($id);
+
+    	if (!$order) {
+    		throw $this->createNotFoundException(
+    			      'Nie znaleziono zamówienia nr' . $id
+    		);
+    	}
+    	$order->setRealised(TRUE);
+    	$em->flush();
+
+
+
+    	return $this->redirectToRoute('orders_list');
+    }
+
 
  } 

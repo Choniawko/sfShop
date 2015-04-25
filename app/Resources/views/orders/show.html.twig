@@ -17,7 +17,7 @@
             {% set number = 1 %}
             {% for product in products %}
                 <tr>
-                    <td>{{ number }} . <a href="{{ path('product', {'id': product.id}) }}">{{ product.name }}</a></td>
+                    <td>{{ number }} . <a href="{{ path('product_show', {'id': product.id}) }}">{{ product.name }}</a></td>
                     <td></td>
                 </tr>                         
                 {% set number = number + 1 %}
@@ -30,8 +30,11 @@
                 {% endif %}
             {% endfor %}
             <tr>
-        <td><a href =" {{ path('orders_list') }} " class="btn btn-primary" title="Go to orders list">Wróć do listy</a></td>
-        <td><a href="#" class="btn btn-success">Opłać</a></td>
+        <td><a href ="{{ path('orders_list') }}" class="btn btn-primary" title="Go to orders list">Wróć do listy</a></td>
+        
+        <td><a href="#" class="btn btn-primary">Opłać</a></td>
+        
+            
     </tr>
         </tbody>
     </table>

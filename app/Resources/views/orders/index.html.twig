@@ -22,15 +22,16 @@
     		<td>{% if order.getRealised == FALSE %}
     		    <span class="label label-default">Oczekujące</span>
     		    {% else %}
-    		    <span class="label label-realizowane!"></span>
+    		    <span class="label label-success">zrealizowane!</span>
     	        {% endif %}
     	    </td>
-    	    <td><a href="{{ path('order_show', {'id': order.id}) }}" class="btn btn-primary">Podgląd</a>
+    	    <td><a href="{{ path('order_show', {'id': order.id}) }}" class="btn btn-xs btn-primary">Podgląd</a>
                             {% if app.user %}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="#" class="btn btn-success">Opłać</a>
-                                    <a href="{{ path('order_remove', {'id': order.id}) }}" class="btn btn-danger">Usuń</a></td>
+                                    <a href="{{ path('order_realize', { 'id': order.id }) }}" class="btn btn-xs btn-success">Zrealizuj</a>
+                                    <a href="{{ path('order_remove', {'id': order.id}) }}" class="btn btn-xs btn-danger">Usuń</a></td>
                                 {% endif %}
+                                    
                             {% endif %}
         </tr>
 

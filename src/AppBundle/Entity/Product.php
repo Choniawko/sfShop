@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Product
@@ -74,6 +76,20 @@ class Product
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="product")
      */
     private $comments;
+
+    
+    /**
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+     *
+     * @var File $imageFile
+     */
+    private $imageFile;
+    /**
+     * @ORM\Column(name="image_name", type="string", length=255)
+     *
+     * @var string $imageName
+     */
+    private $imageName;
 
     /**
      * @var ArrayCollection
@@ -289,5 +305,28 @@ class Product
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Set imageName
+     *
+     * @param string $imageName
+     * @return Product
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * Get imageName
+     *
+     * @return string 
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
     }
 }

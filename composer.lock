@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d70d5c90e3d2be4a639625a2ba6571dc",
+    "hash": "0e2d88f5df630dc7472894560b6043e6",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2554,16 +2554,16 @@
         },
         {
             "name": "vich/uploader-bundle",
-            "version": "v0.11.3",
+            "version": "v0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dustin10/VichUploaderBundle.git",
-                "reference": "904a0f3b39e4b2213746285020b1943cb16a7228"
+                "reference": "65d244d5e6ef62b4978585cdeb283b6cdab05f6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/904a0f3b39e4b2213746285020b1943cb16a7228",
-                "reference": "904a0f3b39e4b2213746285020b1943cb16a7228",
+                "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/65d244d5e6ef62b4978585cdeb283b6cdab05f6b",
+                "reference": "65d244d5e6ef62b4978585cdeb283b6cdab05f6b",
                 "shasum": ""
             },
             "require": {
@@ -2621,7 +2621,7 @@
                 "file uploads",
                 "upload"
             ],
-            "time": "2014-11-14 00:17:42"
+            "time": "2014-12-12 10:26:46"
         }
     ],
     "packages-dev": [],
