@@ -34,7 +34,7 @@ class ProductsController extends Controller
     }
     
     /**
-     * @Route("/produkt/{id}", name="product_show")
+     * @Route("/produkt/{slug}", name="product_show")
      */
     public function showAction(Product $product, Request $request)
     {
@@ -59,7 +59,7 @@ class ProductsController extends Controller
         // jeśli formularz został wysłany, a uzytkownik nie jest zalogowany
         if ($form->isSubmitted() && !$user) {
             $this->addFlash('error', "Aby móc dodawać komentarze musisz się wcześniej zalogować.");
-            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+            return $this->redirectToRoute('product_show', ['slug' => $product->getSlug()]);
         }
         
         // jeśli formularz został wysłany i wszystkie wprowadzone dane są poprawne 
@@ -86,7 +86,7 @@ class ProductsController extends Controller
             }
             
             
-            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+            return $this->redirectToRoute('product_show', ['slug' => $product->getSlug()]);
         }
         
         return $this->render('products/show.html.twig', [

@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Product
  *
  * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
  */
 class Product
 {
@@ -33,6 +34,12 @@ class Product
      * @Assert\Length(min=5, minMessage="Tytuł musi mieć conajmniej {{ limit }} znaków.")
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=255, unique=true)
+     */
+    private $slug;
 
     /**
      * @var string
@@ -85,11 +92,18 @@ class Product
      */
     private $imageFile;
     /**
-     * @ORM\Column(name="image_name", type="string", length=255)
+     * @ORM\Column(name="image_name", type="string", length=255, nullable=true)
      *
      * @var string $imageName
      */
     private $imageName;
+
+      /**
+     * @ORM\Column(name="updatet_at", type="datetime", nullable=true)
+     *
+     * @var \DateTime $updatedAt
+     */
+    private $updatedAt;
 
     /**
      * @var ArrayCollection
@@ -122,6 +136,11 @@ class Product
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
@@ -328,5 +347,41 @@ class Product
     public function getImageName()
     {
         return $this->imageName;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Product
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return Product
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

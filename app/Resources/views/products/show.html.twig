@@ -58,7 +58,8 @@
 
             <div class="panel panel-body">
                 <div class="pull-right">
-                    {{ comment.nbVoteUp }} <a href="#" title="Up"> up </a> | {{ comment.nbVoteDown }} <a href="#" title="Down"> down </a>
+                    <span class="text-success">{{ comment.nbVoteUp }}</span> <a href="{{ path('comment_up_vote', {'id': comment.id}) }}" title="Up" class="vote-up"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a> | 
+                    <span class="text-danger">{{ comment.nbVoteDown }}</span> <a href="{{ path('comment_down_vote', {'id': comment.id}) }}" title="Down" class="vote-down"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></a>
                 </div>
                     <p>{{ comment.content }}</p>
                     <small>Dodany {{ comment.createdAt|date('d-m-Y') }} przez {{ comment.user }}</small>
